@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Survey</title>
+</head>
+<body>
+    <h1>Quick Survey</h1>
+    <form id="surveyForm">
+        <label>Age: <input type="number" name="age" required></label><br>
+        <label>Gender:
+            <select name="gender" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </label><br>
+        <label>Do you like bubble tea?
+            <input type="radio" name="bubble_tea" value="yes" required> Yes
+            <input type="radio" name="bubble_tea" value="no"> No
+        </label><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('YOUR_SERVERLESS_FUNCTION_URL', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Thank you for your submission!');
+                    window.location.href = '/';  // Redirect to main page
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
